@@ -3,7 +3,7 @@
 Aplicación interactiva para el análisis de potencia y error tipo II en pruebas de hipótesis.
 
 ## 🚀 Acceso Directo
-👉 [**Abrir Aplicación**](https://TU-URL-AQUI.streamlit.app)
+👉 [**Abrir Aplicación**](https://kgog9gvctubhgdtnpbsksp.streamlit.app/)
 
 ## 📚 Funcionalidades
 
