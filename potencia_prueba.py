@@ -423,18 +423,25 @@ with tabs[4]:
         n1_dp = st.slider("n₁", 10, 1000, 100, 1, key="n1dp")
         st.markdown("**Grupo 2:**")
         p2_dp = st.slider("p₂", 0.0, 1.0, 0.5, 0.01, key="p2dp")
-       with col2:
-    beta_dp, pot_dp, lim_inf_dp, lim_sup_dp = potencia_diferencia_proporciones(p1_dp, p2_dp, n1_dp, n2_dp, alpha_dp, tipo_dp)
-    dif_dp = p1_dp - p2_dp
-    st.metric("Diferencia", f"{dif_dp:.4f}")
-    st.metric("Error II (β)", f"{beta_dp:.4f}")
-    st.metric("Potencia", f"{pot_dp:.4f}")
-    if pot_dp >= 0.80:  # ✅ LÍNEA AGREGADA
-        st.success("✅ Adecuada")
-    else:
-        st.warning("⚠️ Aumentar n")
-    h_cohen = 2 * (np.arcsin(np.sqrt(p1_dp)) - np.arcsin(np.sqrt(p2_dp)))
-    st.info(f"h = {abs(h_cohen):.3f}")
+        n2_dp = st.slider("n₂", 10, 1000, 100, 1, key="n2dp")
+        alpha_dp = st.select_slider("Significancia (α)", [0.01, 0.05, 0.10], value=0.05, key="alphadp")
+        tipo_dp = st.radio("Tipo", ["bilateral", "unilateral"], key="tipodp")
+    
+    with col2:
+        beta_dp, pot_dp, lim_inf_dp, lim_sup_dp = potencia_diferencia_proporciones(p1_dp, p2_dp, n1_dp, n2_dp, alpha_dp, tipo_dp)
+        dif_dp = p1_dp - p2_dp
+        st.metric("Diferencia", f"{dif_dp:.4f}")
+        st.metric("Error II (β)", f"{beta_dp:.4f}")
+        st.metric("Potencia", f"{pot_dp:.4f}")
+        if pot_dp >= 0.80:
+            st.success("✅ Adecuada")
+        else:
+            st.warning("⚠️ Aumentar n")
+        h_cohen = 2 * (np.arcsin(np.sqrt(p1_dp)) - np.arcsin(np.sqrt(p2_dp)))
+        st.info(f"h = {abs(h_cohen):.3f}")
+    
+    p_pool_dp = (p1_dp * n1_dp + p2_dp * n2_dp) / (n1_dp + n2_dp)
+    se_dp = np.sqrt(p_pool_dp * (1 - p_pool_dp) * (1/n1_dp + 1/n2_dp))
     fig_dp = graficar_distribucion(0, dif_dp, se_dp, lim_inf_dp, lim_sup_dp, tipo_dp, "Diferencia de Proporciones")
     st.pyplot(fig_dp)
     
